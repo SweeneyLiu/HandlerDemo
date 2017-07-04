@@ -40,14 +40,42 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.change_text:
-                        new Thread(new Runnable() {
+                        //更新UI方法一
+                        /*new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 Message message = new Message();
                                 message.what = UPDATE_TEXT;
                                 handler.sendMessage(message); // 将Message对象发送出去
                             }
-                        }).start();
+                        }).start();*/
+                        //更新UI方法二
+                        //先调用handler.post(Runnable r),最终还是会调用到handler.sendMessageDelayed(Message msg, long delayMillis)方法
+                        /*runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                text.setText("更新UI方法二");
+                            }
+                        });*/
+
+                        //更新UI方法三
+                        //最终还是会调用到handler.sendMessageDelayed(Message msg, long delayMillis)方法
+                        /*handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                text.setText("更新UI方法三");
+                            }
+                        });*/
+
+                        //更新UI方法四
+                        //先调用handler.post(Runnable r),最终还是会调用到handler.sendMessageDelayed(Message msg, long delayMillis)方法
+                        text.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                text.setText("更新UI方法四");
+                            }
+                        });
+
                         break;
                     default:
                       break;
